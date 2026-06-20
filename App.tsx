@@ -400,14 +400,107 @@ const App: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8 bg-gradient-to-b from-[#e6e9e3] to-[#d2d6cf]">
-      {/* Phone device mockup shell */}
-      <div
-        style={currentTheme.vars as React.CSSProperties}
-        className="w-[392px] h-[846px] bg-[var(--device-bg,#fff)] rounded-[48px] overflow-hidden relative flex flex-col shadow-[0_2px_4px_rgba(0,0,0,0.04),0_26px_60px_-12px_rgba(20,30,24,0.42),0_0_0_11px_#111418,0_0_0_13px_#2a2e31] select-none text-[var(--text,#15201a)] font-sans"
-      >
-        {/* Status Bar */}
-        <div className="h-[52px] flex-none flex items-end justify-between px-[30px] pb-2 relative z-10 text-[var(--text,#15201a)]">
+    <div
+      style={currentTheme.vars as React.CSSProperties}
+      className="h-screen w-screen flex bg-[var(--bg,#fff)] select-none text-[var(--text,#15201a)] font-sans overflow-hidden relative"
+    >
+      {/* Desktop Sidebar Navigation Panel */}
+      <div className="hidden lg:flex flex-col w-64 bg-[var(--surface,#fff)] border-r border-[var(--line,#eceeea)] p-6 justify-between flex-none">
+        <div>
+          {/* Logo */}
+          <div className="flex items-center gap-3">
+            <img src="/icon-192.png" className="w-10 h-10 rounded-xl shadow-sm" alt="PantryPal Logo" />
+            <span
+              style={{ fontFamily: 'var(--font-head)' }}
+              className="text-2xl font-bold tracking-tight text-[var(--text,#15201a)]"
+            >
+              PantryPal
+            </span>
+          </div>
+
+          {/* Sidebar Menu Items */}
+          <div className="flex flex-col gap-1.5 mt-8">
+            {/* Cook Tab Link */}
+            <button
+              onClick={() => setTab('cook')}
+              style={{
+                color: tab === 'cook' ? 'var(--accent,#15a85b)' : 'var(--muted,#717c75)',
+                backgroundColor: tab === 'cook' ? 'var(--accent-soft,#e6f4ec)' : 'transparent',
+              }}
+              className="w-full flex items-center gap-3 p-3 rounded-xl border-none cursor-pointer font-sans font-bold text-[15px] hover:bg-[var(--surface-2,#f4f7f3)] transition-all"
+            >
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: `'FILL' ${tab === 'cook' ? 1 : 0}` }}>
+                skillet
+              </span>
+              <span>Cook</span>
+            </button>
+
+            {/* Pantry Tab Link */}
+            <button
+              onClick={() => setTab('pantry')}
+              style={{
+                color: tab === 'pantry' ? 'var(--accent,#15a85b)' : 'var(--muted,#717c75)',
+                backgroundColor: tab === 'pantry' ? 'var(--accent-soft,#e6f4ec)' : 'transparent',
+              }}
+              className="w-full flex items-center gap-3 p-3 rounded-xl border-none cursor-pointer font-sans font-bold text-[15px] hover:bg-[var(--surface-2,#f4f7f3)] transition-all"
+            >
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: `'FILL' ${tab === 'pantry' ? 1 : 0}` }}>
+                kitchen
+              </span>
+              <span>Pantry</span>
+            </button>
+
+            {/* Plan Tab Link */}
+            <button
+              onClick={() => setTab('plan')}
+              style={{
+                color: tab === 'plan' ? 'var(--accent,#15a85b)' : 'var(--muted,#717c75)',
+                backgroundColor: tab === 'plan' ? 'var(--accent-soft,#e6f4ec)' : 'transparent',
+              }}
+              className="w-full flex items-center gap-3 p-3 rounded-xl border-none cursor-pointer font-sans font-bold text-[15px] hover:bg-[var(--surface-2,#f4f7f3)] transition-all"
+            >
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: `'FILL' ${tab === 'plan' ? 1 : 0}` }}>
+                calendar_month
+              </span>
+              <span>Plan</span>
+            </button>
+
+            {/* List Tab Link */}
+            <button
+              onClick={() => setTab('list')}
+              style={{
+                color: tab === 'list' ? 'var(--accent,#15a85b)' : 'var(--muted,#717c75)',
+                backgroundColor: tab === 'list' ? 'var(--accent-soft,#e6f4ec)' : 'transparent',
+              }}
+              className="w-full flex items-center gap-3 p-3 rounded-xl border-none cursor-pointer font-sans font-bold text-[15px] hover:bg-[var(--surface-2,#f4f7f3)] transition-all"
+            >
+              <span className="material-symbols-outlined" style={{ fontVariationSettings: `'FILL' ${tab === 'list' ? 1 : 0}` }}>
+                checklist
+              </span>
+              <span>List</span>
+            </button>
+          </div>
+        </div>
+
+        {/* Sidebar Profile Settings */}
+        <button
+          onClick={() => setAppearanceOpen(true)}
+          className="flex items-center gap-3 border-none bg-transparent cursor-pointer p-2 hover:opacity-85 text-left w-full mt-auto"
+        >
+          <div className="w-[42px] h-[42px] rounded-full bg-[var(--surface-2,#f4f7f3)] flex items-center justify-center font-head text-[16px] font-extrabold text-[var(--accent,#15a85b)] border border-[var(--line,#eceeea)]">
+            JM
+          </div>
+          <div className="flex flex-col">
+            <div className="font-bold text-[14px] text-[var(--text,#15201a)]">Jordan Morris</div>
+            <div className="text-[12px] text-[var(--muted,#717c75)] mt-[1px]">Customize appearance</div>
+          </div>
+        </button>
+      </div>
+
+      {/* Main Content Area */}
+      <div className="flex-1 flex flex-col min-h-0 relative bg-[var(--bg,#fff)]">
+        {/* Mobile Status Bar (Hidden on desktop) */}
+        <div className="h-[52px] flex-none flex items-end justify-between px-[30px] pb-2 relative z-10 text-[var(--text,#15201a)] lg:hidden">
           <span className="text-[15px] font-bold tracking-[0.2px]">9:41</span>
           <div className="flex gap-[7px] items-center text-[17px]">
             <span className="material-symbols-outlined" style={{ fontSize: '17px', fontVariationSettings: "'wght' 500, 'FILL' 1" }}>
@@ -422,7 +515,7 @@ const App: React.FC = () => {
           </div>
         </div>
 
-        {/* View Switcher: Onboarding vs Main App */}
+        {/* Inner Content Area */}
         <div className="flex-1 min-h-0 flex flex-col relative overflow-hidden">
           {appState === 'onboarding' ? (
             <Onboarding onFinish={() => setAppState('app')} />
@@ -433,8 +526,8 @@ const App: React.FC = () => {
                 {renderTab()}
               </div>
 
-              {/* Sticky bottom navigation bar */}
-              <div className="flex-none h-[84px] bg-[var(--surface,#fff)] border-t border-[var(--line,#eceeea)] flex items-start pt-[9px] px-2 relative">
+              {/* Mobile bottom navigation bar (Hidden on desktop) */}
+              <div className="flex-none h-[84px] bg-[var(--surface,#fff)] border-t border-[var(--line,#eceeea)] flex items-start pt-[9px] px-2 relative lg:hidden">
                 {/* Cook tab */}
                 <button
                   onClick={() => setTab('cook')}

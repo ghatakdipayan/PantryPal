@@ -77,7 +77,7 @@ export const ListTab: React.FC<ListTabProps> = ({
       </div>
 
       {/* Shopping List grouped by Aisle */}
-      <div className="mt-[22px] flex flex-col gap-[22px]">
+      <div className="mt-[22px] grid grid-cols-1 md:grid-cols-2 gap-[22px]">
         {aisles.map((aisleName) => {
           const itemsInAisle = shoppingList.filter(item => (item.aisle || 'Other') === aisleName);
           if (itemsInAisle.length === 0) return null;
@@ -136,7 +136,7 @@ export const ListTab: React.FC<ListTabProps> = ({
         {/* Add custom item input bar */}
         <form
           onSubmit={handleAddNewItem}
-          className="flex gap-[10px] items-center bg-[var(--surface-2,#f5f8f4)] border border-solid border-transparent focus-within:border-[var(--accent,#15a85b)] rounded-[14px] p-[6px_8px_6px_16px] shadow-sm transition-all"
+          className="flex gap-[10px] items-center bg-[var(--surface-2,#f5f8f4)] border border-solid border-transparent focus-within:border-[var(--accent,#15a85b)] rounded-[14px] p-[6px_8px_6px_16px] shadow-sm transition-all md:col-span-2"
         >
           <span className="material-symbols-outlined text-[var(--muted,#717c75)] flex-none">add</span>
           <input

@@ -217,11 +217,11 @@ export const RefreshHub: React.FC<RefreshHubProps> = ({
         // ===================== REFRESH HUB MAIN DRAWER =====================
         <div
           onClick={onClose}
-          className="absolute inset-0 z-[45] bg-[rgba(15,20,17,0.42)] flex items-end animate-fade-in"
+          className="absolute inset-0 z-[45] bg-[rgba(15,20,17,0.42)] flex items-end lg:items-center lg:justify-center animate-fade-in"
         >
           <div
             onClick={(e) => e.stopPropagation()}
-            className="w-full bg-[var(--bg,#fff)] rounded-t-[26px] p-[10px_22px_30px] animate-sheet-up"
+            className="w-full lg:max-w-md bg-[var(--bg,#fff)] rounded-t-[26px] lg:rounded-[26px] p-[10px_22px_30px] animate-sheet-up"
           >
             {/* Handle */}
             <div className="w-[38px] h-[5px] rounded-full bg-[var(--line,#eceeea)] mx-auto mb-4" />
@@ -302,7 +302,14 @@ export const RefreshHub: React.FC<RefreshHubProps> = ({
         </div>
       ) : (
         // ===================== DETAIL STAGES (receipt/photo/connect) =====================
-        <div className="absolute inset-0 z-40 bg-[#0e1411] flex flex-col animate-fade-in">
+        <div
+          onClick={onClose}
+          className="absolute inset-0 z-40 bg-transparent lg:bg-black/40 flex items-center justify-center animate-fade-in"
+        >
+          <div
+            onClick={(e) => e.stopPropagation()}
+            className="relative w-full h-full lg:max-w-2xl lg:h-[90%] lg:rounded-[26px] lg:shadow-2xl bg-[#0e1411] flex flex-col animate-pop-in"
+          >
           {/* Header */}
           <div className="p-[14px_22px_0] flex items-center justify-between text-white flex-none">
             <button
@@ -517,6 +524,7 @@ export const RefreshHub: React.FC<RefreshHubProps> = ({
             </div>
           )}
         </div>
+      </div>
       )}
     </>
   );

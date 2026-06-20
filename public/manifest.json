@@ -1,0 +1,21 @@
+{
+  "short_name": "PantryPal",
+  "name": "PantryPal - AI Chef Assistant",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "type": "image/png",
+      "sizes": "192x192"
+    },
+    {
+      "src": "/icon-512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": "/",
+  "background_color": "#F1F8E9",
+  "theme_color": "#15a85b",
+  "display": "standalone",
+  "orientation": "portrait"
+}

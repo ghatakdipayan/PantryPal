@@ -142,7 +142,7 @@ export const PantryTab: React.FC<PantryTabProps> = ({ pantryItems, onOpenHub }) 
       )}
 
       {/* Pantry List grouped by categories */}
-      <div className="mt-6 flex flex-col gap-6">
+      <div className="mt-6 grid grid-cols-1 md:grid-cols-2 gap-6">
         {categoriesOrder.map((catName) => {
           const itemsInCat = filteredItems.filter(item => item.cat === catName);
           if (itemsInCat.length === 0) return null;

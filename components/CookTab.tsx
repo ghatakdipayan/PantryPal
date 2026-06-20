@@ -119,26 +119,71 @@ export const CookTab: React.FC<CookTabProps> = ({
         </div>
         <button
           onClick={onOpenAppearance}
-          className="w-[46px] h-[46px] flex-none rounded-full border border-[var(--line,#eceeea)] bg-[var(--surface,#fff)] cursor-pointer flex items-center justify-center font-head text-[17px] font-extrabold text-[var(--accent,#15a85b)] active:scale-95 transition-all shadow-sm"
+          className="w-[46px] h-[46px] flex-none rounded-full border border-[var(--line,#eceeea)] bg-[var(--surface,#fff)] cursor-pointer flex items-center justify-center font-head text-[17px] font-extrabold text-[var(--accent,#15a85b)] active:scale-95 transition-all shadow-sm lg:hidden"
         >
           JM
         </button>
       </div>
 
-      {/* Overview Status Banner */}
-      <div className="mt-5 bg-[var(--accent,#15a85b)] rounded-[var(--r,22px)] p-[22px_22px_20px] text-white relative overflow-hidden shadow-[0_10px_20px_-5px_rgba(21,168,91,0.25)]">
-        <div className="absolute right-[-26px] top-[-26px] width-[140px] height-[140px] rounded-full bg-white/10 w-[140px] h-[140px]" />
-        <div className="absolute right-[24px] bottom-[-30px] width-[90px] height-[90px] rounded-full bg-white/8 w-[90px] h-[90px]" />
-        <span className="material-symbols-outlined text-[26px] opacity-90">restaurant_menu</span>
-        <div className="text-[40px] font-extrabold tracking-[-1px] mt-1.5 leading-none">
-          {readyCount} {readyCount === 1 ? 'recipe' : 'recipes'}
+      {/* Overview Status Banner and AI Generator Card Grid */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-5 mt-5">
+        {/* Overview Status Banner */}
+        <div className="bg-[var(--accent,#15a85b)] rounded-[var(--r,22px)] p-[22px_22px_20px] text-white relative overflow-hidden shadow-[0_10px_20px_-5px_rgba(21,168,91,0.25)]">
+          <div className="absolute right-[-26px] top-[-26px] w-[140px] h-[140px] rounded-full bg-white/10" />
+          <div className="absolute right-[24px] bottom-[-30px] w-[90px] h-[90px] rounded-full bg-white/8" />
+          <span className="material-symbols-outlined text-[26px] opacity-90">restaurant_menu</span>
+          <div className="text-[40px] font-extrabold tracking-[-1px] mt-1.5 leading-none">
+            {readyCount} {readyCount === 1 ? 'recipe' : 'recipes'}
+          </div>
+          <div className="text-[16px] opacity-[0.92] mt-1.5 font-semibold">
+            you can cook right now — nothing to buy
+          </div>
+          <div className="mt-4 inline-flex items-center gap-[6px] bg-white/18 p-[7px_13px] rounded-full text-[13.5px] font-bold">
+            <span className="material-symbols-outlined text-[16px]">bolt</span>
+            {almostCount} more with 1 item
+          </div>
         </div>
-        <div className="text-[16px] opacity-[0.92] mt-1.5 font-semibold">
-          you can cook right now — nothing to buy
-        </div>
-        <div className="mt-4 inline-flex items-center gap-[6px] bg-white/18 p-[7px_13px] rounded-full text-[13.5px] font-bold">
-          <span className="material-symbols-outlined text-[16px]">bolt</span>
-          {almostCount} more with 1 item
+
+        {/* AI Recipe Generator Card */}
+        <div className="bg-gradient-to-r from-emerald-500 to-teal-600 rounded-[var(--r,22px)] p-5 text-white flex flex-col gap-3.5 shadow-[0_10px_20px_-5px_rgba(20,180,140,0.25)] relative overflow-hidden">
+          <div className="absolute right-[-15px] bottom-[-20px] opacity-10">
+            <span className="material-symbols-outlined" style={{ fontSize: '120px' }}>
+              temp_preferences_custom
+            </span>
+          </div>
+          <div className="flex items-center gap-2.5">
+            <span className="material-symbols-outlined" style={{ color: '#FFD700', fontSize: '24px' }}>
+              cognition
+            </span>
+            <span className="font-bold tracking-[1.5px] text-[12px] uppercase text-emerald-100">
+              Powered by Gemini
+            </span>
+          </div>
+          <div>
+            <h3 className="font-head text-[20px] font-extrabold leading-tight">Create Custom AI Recipes</h3>
+            <p className="text-[13.5px] text-emerald-50 mt-1 opacity-90">
+              Let the AI Chef study your pantry and whip up custom options matching your exact tastes.
+            </p>
+          </div>
+          <button
+            onClick={onGenerateRecipes}
+            disabled={isGenerating}
+            className="h-11 bg-white hover:bg-emerald-50 text-emerald-800 font-bold rounded-xl text-[14.5px] border-none cursor-pointer flex items-center justify-center gap-2 transition-all active:scale-[0.98] w-full mt-1.5 shadow"
+          >
+            {isGenerating ? (
+              <>
+                <div className="w-[18px] h-[18px] border-2 border-emerald-800 border-t-transparent rounded-full animate-spin" />
+                Checking fridge pantry...
+              </>
+            ) : (
+              <>
+                <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
+                  auto_awesome
+                </span>
+                Ask AI Chef to Generate
+              </>
+            )}
+          </button>
         </div>
       </div>
 
@@ -163,50 +208,8 @@ export const CookTab: React.FC<CookTabProps> = ({
         })}
       </div>
 
-      {/* AI Recipe Generator Card */}
-      <div className="mt-5 bg-gradient-to-r from-emerald-500 to-teal-600 rounded-[var(--r,22px)] p-5 text-white flex flex-col gap-3.5 shadow-[0_10px_20px_-5px_rgba(20,180,140,0.25)] relative overflow-hidden">
-        <div className="absolute right-[-15px] bottom-[-20px] opacity-10">
-          <span className="material-symbols-outlined" style={{ fontSize: '120px' }}>
-            temp_preferences_custom
-          </span>
-        </div>
-        <div className="flex items-center gap-2.5">
-          <span className="material-symbols-outlined" style={{ color: '#FFD700', fontSize: '24px' }}>
-            cognition
-          </span>
-          <span className="font-bold tracking-[1.5px] text-[12px] uppercase text-emerald-100">
-            Powered by Gemini
-          </span>
-        </div>
-        <div>
-          <h3 className="font-head text-[20px] font-extrabold leading-tight">Create Custom AI Recipes</h3>
-          <p className="text-[13.5px] text-emerald-50 mt-1 opacity-90">
-            Let the AI Chef study your pantry and whip up custom options matching your exact tastes.
-          </p>
-        </div>
-        <button
-          onClick={onGenerateRecipes}
-          disabled={isGenerating}
-          className="h-11 bg-white hover:bg-emerald-50 text-emerald-800 font-bold rounded-xl text-[14.5px] border-none cursor-pointer flex items-center justify-center gap-2 transition-all active:scale-[0.98] w-full mt-1.5 shadow"
-        >
-          {isGenerating ? (
-            <>
-              <div className="w-[18px] h-[18px] border-2 border-emerald-800 border-t-transparent rounded-full animate-spin" />
-              Checking fridge pantry...
-            </>
-          ) : (
-            <>
-              <span className="material-symbols-outlined" style={{ fontSize: '18px' }}>
-                auto_awesome
-              </span>
-              Ask AI Chef to Generate
-            </>
-          )}
-        </button>
-      </div>
-
       {/* Recipes list container */}
-      <div className="mt-5 flex flex-col gap-4">
+      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
         {filteredMetas.map(({ r, meta }, idx) => (
           <button
             key={idx}

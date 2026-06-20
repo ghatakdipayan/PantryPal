@@ -17,11 +17,11 @@ export const AppearanceSheet: React.FC<AppearanceSheetProps> = ({
   return (
     <div
       onClick={onClose}
-      className="absolute inset-0 z-50 bg-[rgba(15,20,17,0.4)] flex items-end animate-fade-in"
+      className="absolute inset-0 z-50 bg-[rgba(15,20,17,0.4)] flex items-end lg:items-center lg:justify-center animate-fade-in"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full bg-[var(--bg,#fff)] rounded-t-[26px] p-[10px_22px_30px] animate-sheet-up"
+        className="w-full lg:max-w-md bg-[var(--bg,#fff)] rounded-t-[26px] lg:rounded-[26px] p-[10px_22px_30px] animate-sheet-up"
       >
         {/* Handle */}
         <div className="w-[38px] h-[5px] rounded-full bg-[var(--line,#eceeea)] mx-auto mb-4" />

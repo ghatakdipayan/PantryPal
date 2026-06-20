@@ -63,7 +63,14 @@ export const RecipeDetail: React.FC<RecipeDetailProps> = ({
   };
 
   return (
-    <div className="ppl-scroll absolute inset-0 bg-[var(--bg,#fff)] z-20 overflow-y-auto animate-fade-in">
+    <div
+      onClick={onClose}
+      className="absolute inset-0 z-20 bg-transparent lg:bg-black/40 flex items-center justify-center animate-fade-in"
+    >
+      <div
+        onClick={(e) => e.stopPropagation()}
+        className="ppl-scroll relative w-full h-full lg:max-w-3xl lg:h-[90%] bg-[var(--bg,#fff)] lg:rounded-[26px] lg:shadow-2xl overflow-y-auto"
+      >
       {/* Top Banner (Photo placeholder) */}
       <div className="h-[280px] relative bg-[var(--accent-soft,#e6f4ec)] display-flex items-center justify-center overflow-hidden flex items-center">
         <div className="absolute inset-0" style={{ backgroundImage: 'repeating-linear-gradient(135deg, transparent 0 18px, rgba(20,30,24,0.04) 18px 19px)' }} />
@@ -245,5 +252,6 @@ export const RecipeDetail: React.FC<RecipeDetailProps> = ({
         </button>
       </div>
     </div>
+  </div>
   );
 };

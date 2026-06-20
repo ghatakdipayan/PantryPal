@@ -47,11 +47,11 @@ export const RecipePicker: React.FC<RecipePickerProps> = ({
   return (
     <div
       onClick={onClose}
-      className="absolute inset-0 z-50 bg-[rgba(15,20,17,0.4)] flex items-end animate-fade-in"
+      className="absolute inset-0 z-50 bg-[rgba(15,20,17,0.4)] flex items-end lg:items-center lg:justify-center animate-fade-in"
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className="w-full max-h-[72%] flex flex-col bg-[var(--bg,#fff)] rounded-t-[26px] pt-[10px] animate-sheet-up"
+        className="w-full max-h-[72%] lg:max-h-[85%] lg:max-w-md flex flex-col bg-[var(--bg,#fff)] rounded-t-[26px] lg:rounded-[26px] pt-[10px] animate-sheet-up"
       >
         {/* Handle */}
         <div className="w-[38px] h-[5px] rounded-full bg-[var(--line,#eceeea)] mx-auto mb-3.5" />
