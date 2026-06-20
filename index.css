@@ -1,0 +1,23 @@
+* { margin:0; padding:0; box-sizing:border-box; -webkit-font-smoothing:antialiased; }
+body { background:#d9dcd6; }
+::-webkit-scrollbar { width:0; height:0; }
+.ppl-scroll { scrollbar-width:none; -ms-overflow-style:none; }
+@keyframes ppl-fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+@keyframes ppl-sheet { from { transform:translateY(100%); } to { transform:translateY(0); } }
+@keyframes ppl-scanline { 0% { top:6%; } 50% { top:88%; } 100% { top:6%; } }
+@keyframes ppl-pulse { 0%,100% { opacity:.35; } 50% { opacity:1; } }
+@keyframes ppl-pop { from { opacity:0; transform:scale(.9) translateY(8px); } to { opacity:1; transform:scale(1) translateY(0); } }
+@keyframes ppl-spin { to { transform:rotate(360deg); } }
+
+/* Additional helper styles for smooth transitions */
+.animate-fade-in {
+  animation: ppl-fade 0.45s ease both;
+}
+
+.animate-sheet-up {
+  animation: ppl-sheet 0.38s cubic-bezier(.2,.8,.2,1) both;
+}
+
+.animate-pop-in {
+  animation: ppl-pop 0.35s ease both;
+}

@@ -69,3 +69,34 @@ export interface FeastPlan {
     recipes: DetailedRecipe[];
     missingItems: string[];
 }
+
+export interface PantryItem {
+  id: string;
+  name: string;
+  cat: string;
+  qty: string;
+  days: number;
+  icon: string;
+}
+
+export interface ShoppingItem {
+  id: string;
+  name: string;
+  aisle: string;
+  qty: string;
+  checked: boolean;
+}
+
+export interface WeeklyPlan {
+  [day: string]: {
+    Lunch: string | null;
+    Dinner: string | null;
+  };
+}
+
+export interface AppTheme {
+  name: string;
+  desc: string;
+  vars: Record<string, string>;
+  sw: string[];
+}

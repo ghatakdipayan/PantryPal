@@ -1,28 +1,94 @@
 # PantryPal: Your AI Sous-Chef for Smart Cooking
 
-## 1. Problem Statement
-Every day, millions of households face the "What's for dinner?" dilemma, often resulting in decision fatigue, repetitive meals, or unnecessary grocery trips. Simultaneously, food waste is a global crisis, with a significant portion occurring at the consumer level because ingredients are forgotten in the back of the fridge or people don't know how to use what they have. Existing recipe apps often require users to buy *more* ingredients rather than helping them utilize what they *already* own.
+PantryPal is a vision-enabled culinary assistant designed to minimize food waste and eliminate decision fatigue in the kitchen. By leveraging advanced AI, PantryPal "sees" the ingredients you already own through photos of your fridge or uploaded grocery receipts, crafting tailored recipe ideas so you can cook right away without unnecessary shopping trips. 
 
-## 2. Solution
-**PantryPal** is an intelligent, vision-enabled culinary assistant that transforms the contents of your kitchen into delicious, personalized meals. By leveraging advanced AI (Gemini), PantryPal "sees" your ingredients through photo uploads and crafts recipes that prioritize what you have while minimizing what you need to buy. It bridges the gap between raw inventory and a finished plate, offering both quick daily solutions and comprehensive event planning. To ensure a seamless last-mile experience, PantryPal supports both direct fast-delivery deep-links (Swiggy Instamart and Zomato Blinkit) and cutting-edge **autonomous shopping** via the open-source **Swiggy Model Context Protocol (MCP) Server** integration.
+This repository implements the premium, unified mobile-app mockup experience centered in a responsive desktop device container.
 
-## 3. Target User Journeys
+---
 
-### Journey A: The "Fridge-to-Table" Daily Cook
-*   **Scenario**: A busy professional returns home at 7 PM with no plan for dinner.
-*   **Action**: They snap a photo of their vegetable drawer and a half-empty pack of paneer.
-*   **Experience**: PantryPal identifies the bell peppers, onions, and paneer. It suggests a "15-minute Kadai Paneer" that fits their "Quick & Easy" mood and "Vegetarian" dietary choice.
-*   **Outcome**: A healthy meal is cooked in under 20 minutes using existing items, saving $20 on takeout and preventing the peppers from spoiling.
+## Key Features
 
-### Journey B: The "Stress-Free Host"
-*   **Scenario**: A user is hosting a "Bollywood Night" themed dinner for 6 friends, some of whom have nut allergies.
-*   **Action**: They select the "Host a Feast!" mode, enter the theme, and specify the allergy constraints.
-*   **Experience**: The AI generates a cohesive 4-course menu (Appetizer, Main, Dessert, Beverage). After the user confirms the concept, they upload photos of their pantry.
-*   **Outcome**: PantryPal provides detailed recipes for the entire menu and a consolidated "Minimal Grocery List" with direct links to Swiggy Instamart/Zomato Blinkit, and an automated prompt for **Swiggy MCP-enabled AI systems** to autonomously order the exact missing ingredients in seconds.
+### 1. Vision-Based Pantry Scanning (Gemini 2.5 Flash)
+Using the `@google/genai` SDK, users can scan or upload a file directly to classify and restock items:
+- **Scan Receipt**: Analyzes a paper receipt to extract item names, map categories, and determine icons automatically.
+- **Fridge Photo**: Scans pantry shelf photos to identify and track visible ingredients.
+- **Connection Simulation**: Simulates order-history integration for apps like *Swiggy Instamart*, *Blinkit*, *Zepto*, *Amazon Fresh*, and *BigBasket*.
+- *Note: A built-in simulation mode is available for offline validation and demo purposes.*
 
-## 4. Future Scope
-*   **Smart Inventory Tracking**: Integration with smart refrigerators or manual "pantry check-ins" to track ingredient expiration dates and send proactive recipe alerts.
-*   **Nutritional Analytics**: Real-time calorie and macro-nutrient tracking based on the specific portions and ingredients used in generated recipes.
-*   **Community Marketplace**: A platform for users to share "Pantry Wins"—creative recipes they discovered using odd combinations of leftovers.
-*   **Voice-Guided Cooking**: A hands-free "Kitchen Mode" where the AI reads instructions aloud and answers questions like "What can I substitute for buttermilk?" in real-time.
-*   **Full API Retail Integration**: Dynamic real-time cart synchronization directly with local retailers based on current local warehouse stock.
+### 2. Multi-Theme Custom Styling System
+The app features three distinct design themes selector accessible via the user avatar:
+- **Fresh (Clean White & Garden Green)**: High-contrast, friendly rounded components (`--r: 22px`).
+- **Warm (Cosy Cookbook)**: Earthy cookbook textures featuring elegant serif headings (`Newsreader` serif font) and soft corners (`--r: 16px`).
+- **Mono (Bold Minimal)**: Dynamic high-contrast minimal theme featuring tight spacing and high-impact borders (`--r: 10px`).
+
+### 3. Step-by-Step Cooking Guide (Cook Mode)
+Provides a focused step-by-step kitchen assistant layout:
+- Visible progress bar showing the percentage completion.
+- Big counter numbers.
+- Automated timer detection (e.g. tracking steps that require precise boiling or searing times).
+- Completion toasts when the meal is finished.
+
+### 4. Interactive Weekly Meal Planner
+Allows planning meals across a Monday–Sunday grid:
+- Highlighted **Today** badge indicators.
+- Lunch and Dinner planning slots.
+- Recipe Picker bottom drawer that displays recipes sorted by ingredient readiness (fully ready recipes appear first).
+
+### 5. Categorized Inventory & Expirations
+- Pantry items are sorted by category: *Produce*, *Dairy & Eggs*, *Proteins*, *Grains & Pasta*, and *Pantry Staples*.
+- Proactive **Use Soon** horizontal carousel highlighting ingredients expiring in 3 days or less.
+- Search-bar functionality for direct pantry exploration.
+
+### 6. Intelligent Shopping Lists & Swiggy MCP Integration
+- Automatically groups missing recipe ingredients into shopping aisles.
+- Supports checking off items (strike-through) and clearing completed lists.
+- Provides a detailed modal guide for configure a **Swiggy Model Context Protocol (MCP) Server** to automate grocery checkout directly from your local Claude Desktop configuration.
+
+---
+
+## Directory Architecture
+
+```
+PantryPal/
+├── App.tsx                    # Coordinates global states and active sheets
+├── index.html                 # Hosts Google Fonts and Material Icon sets
+├── index.css                  # Handles animations, scrollbar hide, and resets
+├── types.ts                   # Unified TypeScript definitions
+├── components/
+│   ├── Onboarding.tsx         # Welcome screens slider
+│   ├── CookTab.tsx            # Home greeting, cards list, and AI recipe generator
+│   ├── PantryTab.tsx          # Inventory categorization and search
+│   ├── PlanTab.tsx            # Weekly slot scheduler
+│   ├── ListTab.tsx            # Shopping items grouped by aisle
+│   ├── RecipeDetail.tsx       # Ingredients checklist overlay
+│   ├── CookMode.tsx           # Step-by-step active cooking interface
+│   ├── RefreshHub.tsx         # Receipts scanner, cameras, and API links
+│   ├── AppearanceSheet.tsx    # App styling custom variables configuration
+│   ├── RecipePicker.tsx       # Sorted recipe planning drawer
+│   └── SwiggyMcpGuide.tsx     # Swiggy MCP Server instructions
+└── services/
+    └── geminiService.ts       # Gemini 2.5 Flash API calls
+```
+
+---
+
+## Local Development
+
+### 1. Environment Configuration
+Create a `.env` file in the root folder and add your Gemini API Key:
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+### 2. Run standard commands
+To start the local bundler or preview production builds:
+```bash
+# Install dependencies
+npm install
+
+# Start local development server
+npm run dev
+
+# Compile TypeScript and test standard production bundler
+npm run build
+```

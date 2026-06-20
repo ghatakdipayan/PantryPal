@@ -269,3 +269,97 @@ Return the entire plan as a single JSON object adhering to the provided schema.
           throw new Error("The AI returned an unexpected response format. Please try again.");
       }
 };
+
+const scanSchema = {
+  type: Type.ARRAY,
+  items: {
+    type: Type.OBJECT,
+    properties: {
+      name: { type: Type.STRING, description: 'The name of the ingredient, properly capitalized (e.g. "Whole wheat bread" or "Greek yogurt").' },
+      cat: { type: Type.STRING, description: 'Category: "Produce", "Dairy & eggs", "Proteins", "Grains & pasta", or "Pantry staples".' },
+      icon: { type: Type.STRING, description: 'Material Symbols Outlined icon name (e.g., "eco" for produce/herbs, "nutrition" for fruits/veg, "egg" for eggs, "icecream" or "lunch_dining" for yogurt/cheese/butter, "set_meal" for meat/fish, "grain" for legumes/spices, "rice_bowl" or "ramen_dining" or "bakery_dining" for grains, "water_drop" for oils/liquids).' }
+    },
+    required: ["name", "cat", "icon"]
+  }
+};
+
+export const analyzeReceiptImage = async (file: File): Promise<{name: string, cat: string, icon: string}[]> => {
+  const base64Data = await fileToBase64(file);
+  const imagePart = {
+    inlineData: {
+      mimeType: file.type,
+      data: base64Data
+    }
+  };
+
+  const prompt = `Analyze this receipt image and identify all food ingredients or grocery items purchased. Extrapolate any abbreviated item names (e.g., "CHRY TOM" becomes "Cherry tomatoes", "ORG YOG" becomes "Greek yogurt"). For each item, classify its category into one of: "Produce", "Dairy & eggs", "Proteins", "Grains & pasta", "Pantry staples". Return a JSON array matching the schema.`;
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: [imagePart, prompt],
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: scanSchema
+    }
+  });
+
+  const responseText = response.text.trim();
+  try {
+    return JSON.parse(responseText);
+  } catch (e) {
+    console.error("Failed to parse Gemini response as JSON:", responseText);
+    throw new Error("Could not parse receipt scan result. Please try again.");
+  }
+};
+
+export const analyzeFridgeImage = async (file: File): Promise<{name: string, cat: string, icon: string}[]> => {
+  const base64Data = await fileToBase64(file);
+  const imagePart = {
+    inlineData: {
+      mimeType: file.type,
+      data: base64Data
+    }
+  };
+
+  const prompt = `Analyze this image of a refrigerator interior or pantry shelf. Spot all visible ingredients, food items, vegetables, dairy, or leftovers. For each item, classify its category into one of: "Produce", "Dairy & eggs", "Proteins", "Grains & pasta", "Pantry staples". Return a JSON array matching the schema.`;
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: [imagePart, prompt],
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: scanSchema
+    }
+  });
+
+  const responseText = response.text.trim();
+  try {
+    return JSON.parse(responseText);
+  } catch (e) {
+    console.error("Failed to parse Gemini response as JSON:", responseText);
+    throw new Error("Could not parse fridge photo scan result. Please try again.");
+  }
+};
+
+export const generateRecipesFromPantry = async (pantryIngredients: string[]): Promise<Recipe[]> => {
+  const prompt = `You are a creative chef's assistant. Based on these ingredients currently in the user's pantry: ${pantryIngredients.join(', ')}, suggest 2 delicious recipes they can cook right now. 
+  Minimize the need for extra groceries, focusing heavily on what is already available. If a recipe needs some other basic kitchen staple, check if it's in the list. If any ingredients are missing, list them in 'missingItems'. Otherwise 'missingItems' should be empty.
+  Return a JSON array of recipes matching the schema.`;
+
+  const response = await ai.models.generateContent({
+    model: 'gemini-2.5-flash',
+    contents: prompt,
+    config: {
+      responseMimeType: "application/json",
+      responseSchema: recipeSchema
+    }
+  });
+
+  const responseText = response.text.trim();
+  try {
+    return JSON.parse(responseText);
+  } catch (e) {
+    console.error("Failed to parse Gemini response as JSON:", responseText);
+    throw new Error("Failed to generate recipes from pantry. Please try again.");
+  }
+};
