@@ -498,7 +498,7 @@ const App: React.FC = () => {
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col min-h-0 relative bg-[var(--bg,#fff)]">
+      <div className="flex-1 flex flex-col min-h-0 min-w-0 relative bg-[var(--bg,#fff)]">
         {/* Mobile Status Bar (Hidden on desktop) */}
         <div className="h-[52px] flex-none flex items-end justify-between px-[30px] pb-2 relative z-10 text-[var(--text,#15201a)] lg:hidden">
           <span className="text-[15px] font-bold tracking-[0.2px]">9:41</span>
@@ -520,7 +520,7 @@ const App: React.FC = () => {
           {appState === 'onboarding' ? (
             <Onboarding onFinish={() => setAppState('app')} />
           ) : (
-            <div className="flex-1 flex flex-col min-h-0 relative">
+            <div className="flex-1 flex flex-col min-h-0 min-w-0 relative">
               {/* Inner Tab scroll area */}
               <div className="ppl-scroll flex-1 overflow-y-auto min-h-0">
                 {renderTab()}
