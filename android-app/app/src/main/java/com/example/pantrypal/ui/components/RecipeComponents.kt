@@ -486,7 +486,7 @@ fun SwiggyMcpGuideDialog(
 
 private fun copyToClipboard(context: Context, text: String) {
     val clipboard = context.getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-    val clip = ClipData.newPlainText("PantryPal MCP", text)
+    val clip = ClipData.newPlainText("Mise MCP", text)
     clipboard.setPrimaryClip(clip)
 }
 

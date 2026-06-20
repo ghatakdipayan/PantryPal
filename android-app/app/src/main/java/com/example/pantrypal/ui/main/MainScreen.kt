@@ -34,7 +34,7 @@ fun MainScreen(
                 title = {
                     Column(horizontalAlignment = Alignment.CenterHorizontally) {
                         Text(
-                            text = "PantryPal",
+                            text = "Mise",
                             fontSize = 32.sp,
                             fontWeight = FontWeight.Bold,
                             fontFamily = FontFamily.Serif,
@@ -120,7 +120,7 @@ fun MainScreen(
             Spacer(modifier = Modifier.height(32.dp))
             
             Text(
-                text = "Crafted with ❤️ by PantryPal AI",
+                text = "Crafted with ❤️ by Mise AI",
                 fontSize = 12.sp,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = 0.5f),
                 modifier = Modifier.padding(bottom = 16.dp)

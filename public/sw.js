@@ -1,4 +1,4 @@
-const CACHE_NAME = 'pantrypal-cache-v1';
+const CACHE_NAME = 'mise-cache-v1';
 const urlsToCache = [
   '/',
   '/index.html',
