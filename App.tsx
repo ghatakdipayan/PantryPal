@@ -13,6 +13,8 @@ import { AppearanceSheet } from './components/AppearanceSheet';
 import { RecipePicker } from './components/RecipePicker';
 import { SwiggyMcpGuide } from './components/SwiggyMcpGuide';
 import { AuthScreen } from './components/AuthScreen';
+import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth, isFirebaseConfigured } from './services/firebase';
 
 const themes: Record<string, AppTheme> = {
   fresh: {
@@ -255,17 +257,60 @@ const App: React.FC = () => {
     }
   };
 
-  const handleSignOut = () => {
+  const handleSignOut = async () => {
     localStorage.removeItem('pantrypal_user');
     localStorage.removeItem('pantrypal_onboarded');
     setUserProfile(null);
     setAppState('auth');
+
+    if (isFirebaseConfigured && auth) {
+      try {
+        await signOut(auth);
+      } catch (error) {
+        console.error('Firebase sign out failed:', error);
+      }
+    }
   };
 
   const handleFinishOnboarding = () => {
     localStorage.setItem('pantrypal_onboarded', 'true');
     setAppState('app');
   };
+
+  // Listen to real Firebase Auth changes
+  useEffect(() => {
+    if (!isFirebaseConfigured || !auth) return;
+
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        const name = user.displayName || 'Google User';
+        const email = user.email || '';
+        const initials = name
+          .split(' ')
+          .map((n) => n[0])
+          .join('')
+          .toUpperCase()
+          .slice(0, 2) || 'JM';
+        
+        const profile = { name, email, avatar: initials };
+        localStorage.setItem('pantrypal_user', JSON.stringify(profile));
+        setUserProfile(profile);
+
+        setAppState((prev) => {
+          if (prev === 'auth') {
+            const onboarded = localStorage.getItem('pantrypal_onboarded');
+            return onboarded ? 'app' : 'onboarding';
+          }
+          return prev;
+        });
+      } else {
+        setUserProfile(null);
+        setAppState('auth');
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
 
   const [theme, setTheme] = useState<string>('fresh');
   const [tab, setTab] = useState<'cook' | 'pantry' | 'plan' | 'list'>('cook');

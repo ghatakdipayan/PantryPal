@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import { signInWithPopup } from 'firebase/auth';
+import { auth, googleProvider, facebookProvider, isFirebaseConfigured } from '../services/firebase';
 
 interface AuthScreenProps {
   onSignIn: (provider: string, userProfile: { name: string; email: string; avatar: string }) => void;
@@ -6,11 +8,50 @@ interface AuthScreenProps {
 
 export const AuthScreen: React.FC<AuthScreenProps> = ({ onSignIn }) => {
   const [loadingProvider, setLoadingProvider] = useState<string | null>(null);
+  const [noticeMsg, setNoticeMsg] = useState<string | null>(null);
 
-  const handleSocialLogin = (provider: string) => {
+  const handleSocialLogin = async (provider: string) => {
     setLoadingProvider(provider);
-    
-    // Simulate API authorization response delay
+    setNoticeMsg(null);
+
+    // 1. If Firebase is configured and the provider is Google or Facebook, use real Firebase Auth!
+    if (isFirebaseConfigured && auth && (provider === 'google' || provider === 'facebook')) {
+      try {
+        const activeProvider = provider === 'google' ? googleProvider : facebookProvider;
+        if (!activeProvider) {
+          throw new Error(`${provider} auth provider was not initialized.`);
+        }
+
+        const result = await signInWithPopup(auth, activeProvider);
+        const user = result.user;
+
+        const name = user.displayName || (provider === 'google' ? 'Google User' : 'Facebook User');
+        const email = user.email || '';
+        
+        // Extract initials for the profile avatar display
+        const initials = name
+          .split(' ')
+          .map((n) => n[0])
+          .join('')
+          .toUpperCase()
+          .slice(0, 2) || 'JM';
+
+        onSignIn(provider, { name, email, avatar: initials });
+      } catch (error: any) {
+        console.error('Firebase authentication failed:', error);
+        setNoticeMsg(error.message || `Failed to authenticate via ${provider}. Please check your console.`);
+      } finally {
+        setLoadingProvider(null);
+      }
+      return;
+    }
+
+    // 2. If Firebase is not configured, show a visual warning notice and fall back to mock data
+    if (!isFirebaseConfigured && (provider === 'google' || provider === 'facebook')) {
+      setNoticeMsg('Firebase credentials not detected in .env file. Falling back to simulated login mode.');
+    }
+
+    // Simulated auth delay
     setTimeout(() => {
       let name = 'Jordan Morris';
       let email = 'jordan.morris@gmail.com';
@@ -36,7 +77,7 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onSignIn }) => {
 
       onSignIn(provider, { name, email, avatar });
       setLoadingProvider(null);
-    }, 1200);
+    }, 1400);
   };
 
   return (
@@ -62,9 +103,16 @@ export const AuthScreen: React.FC<AuthScreenProps> = ({ onSignIn }) => {
         </span>
 
         {/* Headline */}
-        <p className="text-center text-[15px] leading-relaxed text-[#717c75] mt-5 mb-8 max-w-[280px]">
+        <p className="text-center text-[15px] leading-relaxed text-[#717c75] mt-5 mb-6 max-w-[280px]">
           Cook meals with what you already have, reduce food waste, and plan your week.
         </p>
+
+        {/* Notice Info Banner */}
+        {noticeMsg && (
+          <div className="w-full bg-amber-50 border border-solid border-amber-200 text-amber-800 p-3.5 rounded-2xl text-[12.5px] leading-relaxed mb-6 text-center animate-fade-in">
+            <span className="font-bold">Developer Notice:</span> {noticeMsg}
+          </div>
+        )}
 
         {/* Social login buttons block */}
         <div className="w-full flex flex-col gap-3.5">
