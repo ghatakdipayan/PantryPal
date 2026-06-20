@@ -12,7 +12,7 @@ export const Onboarding: React.FC<OnboardingProps> = ({ onFinish }) => {
       kicker: 'Cook smarter',
       icon: 'skillet',
       title: 'Dinner from what you already have',
-      body: 'PantryPal turns the food in your kitchen into recipes you can actually make tonight.',
+      body: 'Mise turns the food in your kitchen into recipes you can actually make tonight.',
       cta: 'Next',
     },
     {

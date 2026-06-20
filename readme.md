@@ -1,6 +1,6 @@
-# PantryPal: Your AI Sous-Chef for Smart Cooking
+# Mise: Your AI Sous-Chef for Smart Cooking
 
-PantryPal is a vision-enabled culinary assistant designed to minimize food waste and eliminate decision fatigue in the kitchen. By leveraging advanced AI, PantryPal "sees" the ingredients you already own through photos of your fridge or uploaded grocery receipts, crafting tailored recipe ideas so you can cook right away without unnecessary shopping trips. 
+Mise is a vision-enabled culinary assistant designed to minimize food waste and eliminate decision fatigue in the kitchen. By leveraging advanced AI, Mise "sees" the ingredients you already own through photos of your fridge or uploaded grocery receipts, crafting tailored recipe ideas so you can cook right away without unnecessary shopping trips. 
 
 This repository implements the premium, unified mobile-app mockup experience centered in a responsive desktop device container.
 
@@ -49,7 +49,7 @@ Allows planning meals across a Monday–Sunday grid:
 ## Directory Architecture
 
 ```
-PantryPal/
+Mise/
 ├── App.tsx                    # Coordinates global states and active sheets
 ├── index.html                 # Hosts Google Fonts and Material Icon sets
 ├── index.css                  # Handles animations, scrollbar hide, and resets
@@ -84,6 +84,7 @@ GEMINI_API_KEY=your_gemini_api_key_here
 To start the local bundler or preview production builds:
 ```bash
 # Install dependencies
+# (Use prefix `/usr/local/bin` if npm command is not found in local workspace paths)
 npm install
 
 # Start local development server

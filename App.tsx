@@ -409,12 +409,12 @@ const App: React.FC = () => {
         <div>
           {/* Logo */}
           <div className="flex items-center gap-3">
-            <img src="/icon-192.png" className="w-10 h-10 rounded-xl shadow-sm" alt="PantryPal Logo" />
+            <img src="/icon-192.png" className="w-10 h-10 rounded-xl shadow-sm" alt="Mise Logo" />
             <span
               style={{ fontFamily: 'var(--font-head)' }}
               className="text-2xl font-bold tracking-tight text-[var(--text,#15201a)]"
             >
-              PantryPal
+              Mise
             </span>
           </div>
 

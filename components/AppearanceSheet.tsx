@@ -27,7 +27,7 @@ export const AppearanceSheet: React.FC<AppearanceSheetProps> = ({
         <div className="w-[38px] h-[5px] rounded-full bg-[var(--line,#eceeea)] mx-auto mb-4" />
 
         <h2 className="font-head text-[22px] font-bold text-[var(--text,#15201a)]">Appearance</h2>
-        <p className="text-[14px] text-[var(--muted,#717c75)] mt-[3px]">Try a different look for PantryPal</p>
+        <p className="text-[14px] text-[var(--muted,#717c75)] mt-[3px]">Try a different look for Mise</p>
 
         <div className="mt-[18px] flex flex-col gap-[11px]">
           {Object.entries(themes).map(([id, t]) => {
